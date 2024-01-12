@@ -26,9 +26,8 @@ app.get("/", (req, res) => {
       console.log(
         "Pinged your deployment. You successfully connected to MongoDB!"
       );
-
       const result = await movies.findOne({ name: "Riviera Caterer" });
-      res.send("Ami kuddus" + result);
+      res.send("Ami kuddus " + result?.name);
     } catch (err) {
       console.log(err);
     }
