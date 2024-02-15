@@ -28,6 +28,7 @@ const database = client.db("eye-care");
 const productList = database.collection("productList");
 const userList= database.collection("userList")
 const orderList = database.collection("orderList")
+const blogPost = database.collection("blogPost")
 
 app.get("/", (req, res) => {
   res.send("Listening");
@@ -190,6 +191,40 @@ app.get("/singleOrder/:orderId",async(req,res)=>{
   }
 })
 
+// create blog post
+app.post("/blogPost",async(req,res)=>{
+  try{
+    const doc= req.body
+    const result = await blogPost.insertOne(doc);
+    res.json(result);
+  }catch(err){
+    console.log("Failed to insert blog");
+  }
+})
+
+// find a single blog post
+app.get("/blogPost/:blogId",async(req,res)=>{
+  try{
+    const id = new ObjectId(req.params.blogId);
+    const result = await blogPost.findOne({ _id: id });
+    res.json(result);
+  }catch(err){
+    console.log("Failed to Find a single blog");
+  }
+})
+
+// find all blog post
+app.get("/blogPost",async(req,res)=>{
+  try{
+    const result =  blogPost.find();
+    const blogs= await result.toArray()
+    res.json(blogs);
+  }catch(err){
+    console.log("Failed to find all blog");
+  }
+})
+
+
 // verify id token middleware
 async function verifyIdToken(req, res, next){
   if(req.headers?.authorization?.startsWith("Bearer ")){
@@ -220,7 +255,21 @@ app.get("/myOrders", verifyIdToken,async(req, res)=>{
 
 // This is for customer order status change
 app.put('/singleOrder',async(req, res)=>{
-    
+    try{
+      const {status, id}= req.body 
+      console.log(status, id);
+      const _id= new ObjectId(id);
+      const filter= {_id}
+      const updateDoc = {
+        $set: {
+          status: status
+        },
+      };
+      const result = await orderList.updateOne(filter, updateDoc)
+      res.send(result)
+    }catch(err){
+      console.log("Failed to change status");
+    }
 })
 
 
