@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "eyecare-shohag",
+  "private_key_id": "d0c67bb10e1d5adc09048cda99f378d1a3f2b162",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDGyJHopZcEIChY\nsLiATtV7tC/5qpeTmJ6Zwit/udAqnAqWm6KuQQdqTOxRHcADpKOVqcIcaCSO+wDo\n/2MyM1VY//q9PbIHLL1gb3I024555UCiqXjD2FP1Vwr+J/5xSxQm7BnUsQY02qAJ\nkYCDfq697alMLkh4/h9FI4To3Q6gX+DkISDqTArVhHfej/UdSUgustwwMSICGfox\ntC21NCBcUh1S2NZLphddCv+lYNsiEo0MamIC8uY7ZzjC1Bt05MbpZn0+7zYpfbF5\nhticYnjh3AEwgph8Pyaa3JU3WxmK6OFpXW18PKhAGTMonCKDgfqHt0w2KmuHDrof\nssEk9beTAgMBAAECggEACS2Efb3QzvofHW0sr5E0ORhqKKL63u/VJBs7apPCgTJ1\nfgZPM1rBmWOre4PzSW0bYmhqk74uhe11LszFIIcPNziRCUC6d1YA+QgG5AWJD/wI\n3m8S/359mIkSyFuXW1Vl56AkrIBvMsHZ/BHG4bYCd7bBMh5m7oh+cBuXjNrRTI/b\nx/wXk6/iFNUwPoqXFyzAbc45Jqigr3+lAhmghPu7dRgKbAoxku8GeVuevun7Qlg8\nG97G/qDAw0uA3Eg/R5oUgssT2QmuU8tNIT/KTbnstOe2a2m6LvejPHYTWNFf0Qvj\nsFhd158wPWJzm1C7bjfXizWa6kv/Q5YUZyiLk8JWUQKBgQD13z0x5HeDNowamyem\n8gG+YnEn+hQHcwFypNwj3A5nUu+lzrbks7wu6WMeO26qhQLlmCIEYnyoTkK/Nz6g\nDQDX4PgXDYYfq2cM83Gv8o8hLxS5WDUjOMueN5/QDAp4m9B6/VbK8zsRdO5icszi\nQxQuq4XV31NwttHuygmlzwxeIwKBgQDO+MY/DKTuU7g2l/Sq6nF3HAaugrMipGNn\ndtlsoQwUFgwcunef6SsPvxnnqFnfXYYBjKiSo8TK5u4BHUdCesTjaRWxd6iCtERV\n74ydyIDxdCnjZPITpCtyROwodkGOwCoedbj65ErMSS8aR5jmWWR3t2Clp9s0b7PZ\nJbjk0wj/0QKBgQDCGHEeqdUO6EjB2Cn9SJ7HxL6/aFPXbZp+/lYqmNVmC7rTkdQf\nxyOPhP6SJyi9xDL9PJPeEkGGPAHFIb92ac14nkg7Kpnu9khrmOLumvUSpTAfANsx\n6uwTAqZOfrLlc1upO8UAgfLnXP+zCB1loL6V+SG2LI6aNDiV4TishD6nMQKBgAfm\ny3rAutM2cwPyjS6xQJ+xfDfRWZFrATiD+w0AoPtrVA8Mt2BtgG1beFu1u6ihY2pP\numfOxMaSRmfYfE33bejYrDFYRiCnTSyStqWXcATH0ImT4wII9HeqVfG9ggc3IuSC\nzgsWCB0AdkHkldvFceZ4I8JvRBkeYplZrVNfEyrhAoGBAOHk12sE0LzWufkP78NG\nvlccsB4dXselcx0fDgK+d1/Bw39RKZzxihVKlLqafoBXrk9QjuWtRWaxzirYAxr5\n5XB8Ir4AInU5yfhG5HoMHlt3/Is28WA0Mkvsm2IzQJqRR+7jnc7hhyGtPtXRMg2/\nqkHRucLynSLJqK2jTHqi4Xb8\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-y4q4o@eyecare-shohag.iam.gserviceaccount.com",
+  "client_id": "103775093139189137869",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-y4q4o%40eyecare-shohag.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
