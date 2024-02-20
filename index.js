@@ -11,7 +11,6 @@ admin.initializeApp({
 })
 
 const cors = require("cors");
-const port = 2020;
 app.use(cors());
 app.use(express.json());
 
@@ -310,6 +309,6 @@ app.put('/singleOrder',async(req, res)=>{
 })
 
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+app.listen(process.env.PORT, () => {
+  console.log(`Example app listening on port ${process.env.PORT}`);
 });
