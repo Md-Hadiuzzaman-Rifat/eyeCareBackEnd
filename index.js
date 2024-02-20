@@ -77,6 +77,7 @@ app.put("/editUser", async(req, res)=>{
   }
 })
 
+// product upload
 app.post("/uploadProduct", (req, res) => {
   async function run() {
     try {
@@ -90,7 +91,8 @@ app.post("/uploadProduct", (req, res) => {
   run();
 });
 
-app.get("/getProducts", (req, res) => {
+// will work on this
+app.get("/featuredProduct", (req, res) => {
   async function run() {
     try {
       const products = await productList.find({});
@@ -98,6 +100,41 @@ app.get("/getProducts", (req, res) => {
       res.json(result);
     } catch (err) {
       console.log("failed to find");
+    }
+  }
+  run();
+});
+
+// get related product
+app.get("/relatedProduct", (req, res) => {
+  async function run() {
+    try {
+      const products = productList.find(req.query);
+      const result = await products.toArray();
+      res.json(result);
+    } catch (err) {
+      console.log("Failed to Find Related Products.");
+    }
+  }
+  run();
+});
+
+app.get("/getProducts", (req, res) => {
+  async function run() {
+    // console.log(req.query);
+    let currentPage=req.query?.page
+    let limit=req.query?.limit
+    if(currentPage>=0){
+      // console.log(currentPage);
+      try {
+        const products = productList.find({}).limit(currentPage * limit).skip(4);
+        const result = await products.toArray();
+        console.log(result.length);
+        res.json(result);
+      } catch (err) {
+        console.log("failed to find");
+      }
+    }else{
     }
   }
   run();
@@ -172,7 +209,7 @@ app.post('/confirmOrder',(req,res)=>{
 // Find ordered product from database 
 app.get("/orderedProduct" ,async(req,res)=>{
   try{
-    const products = orderList.find({});
+    const products = orderList.find({}).sort( { timestamp: -1 } );;
     const result = await products.toArray();
     res.json(result);
   }catch(err){
@@ -244,7 +281,7 @@ app.get("/myOrders", verifyIdToken,async(req, res)=>{
   try {
     const {email}= req.query || {}
     if(email===req?.email){
-      const orders = orderList.find({email});
+      const orders = orderList.find({email}).sort( { timestamp: -1 } );
     const result = await orders.toArray();
     res.json(result);
     }
