@@ -142,18 +142,32 @@ app.get("/relatedProduct", (req, res) => {
   run();
 });
 
+// search products
+app.get("/searchProducts", (req, res) => {
+  async function run() {
+    try {
+      const products = await productList.find({});
+      const result = await products.toArray();
+      res.json(result);
+    } catch (err) {
+      console.log("failed to find");
+    }
+  }
+  run();
+});
+
+
 app.get("/getProducts", (req, res) => {
   async function run() {
     // console.log(req.query);
     let currentPage = req.query?.page;
     let limit = req.query?.limit;
     if (currentPage >= 0) {
-      // console.log(currentPage);
+      
       try {
         const products = productList
           .find({})
           .limit(currentPage * limit)
-          .skip(4);
         const result = await products.toArray();
         console.log(result.length);
         res.json(result);
