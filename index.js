@@ -39,9 +39,11 @@ app.post("/addUser", async (req, res) => {
   try {
     const user = req.body;
     const filter = { email: user.email };
-    const option = { upsert: false };
+    const option = { upsert: true };
     const updateDoc = { $set: user };
     const result = await userList.updateOne(filter, updateDoc, option);
+    console.log("Hello world");
+    console.log(user);
     res.json(result);
   } catch {
     console.log("Failed to insert user.");
