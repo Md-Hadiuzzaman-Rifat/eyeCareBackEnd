@@ -1,6 +1,7 @@
 const express = require("express");
 require("dotenv").config();
 const app = express();
+const multer = require("multer");
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const uri = process.env.MONGODB_URL;
 const admin = require("firebase-admin");
@@ -11,9 +12,10 @@ admin.initializeApp({
 });
 
 const cors = require("cors");
-const port = 2020;
+const port = 25000;
 app.use(cors());
 app.use(express.json());
+app.use(express.static('public'))
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -24,14 +26,43 @@ const client = new MongoClient(uri, {
 });
 
 // database and collection name
-const database = client.db("eye-care");
+const database = client.db("thespacticle23");
 const productList = database.collection("productList");
 const userList = database.collection("userList");
 const orderList = database.collection("orderList");
 const blogPost = database.collection("blogPost");
+const garbageList= database.collection("garbageList")
 
 app.get("/", (req, res) => {
   res.send("Listening");
+});
+
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    return cb(null, "./public/Images");
+  },
+  filename: function (req, file, cb) {
+    return cb(null, `${Date.now()}_${file.originalname}`);
+  },
+});
+
+const upload = multer({ storage });
+
+// upload new 
+app.post("/uploadProduct", upload.array("files"), async (req, res) => {
+  const description = JSON.parse(req.body.message);
+  try {
+    await productList.insertOne({
+      description,
+      images: req.files,
+    });
+    res.status(200).json({ status: "ok" });
+  } catch (err) {
+    res.status(400).send({
+      message: "This is an error uploading Product!",
+    });
+  }
 });
 
 // create logged in users collection
@@ -42,8 +73,6 @@ app.post("/addUser", async (req, res) => {
     const option = { upsert: true };
     const updateDoc = { $set: user };
     const result = await userList.updateOne(filter, updateDoc, option);
-    console.log("Hello world");
-    console.log(user);
     res.json(result);
   } catch {
     console.log("Failed to insert user.");
@@ -76,7 +105,7 @@ app.delete("/deleteUser/:id", async (req, res) => {
       },
     };
     const result =await userList.updateOne(filter, updateDoc);
-    console.log(result);
+    // console.log(result); 
     res.send(result)
   } catch (err) {
     console.log("Failed to delete users collection");
@@ -132,9 +161,10 @@ app.get("/featuredProduct", (req, res) => {
 
 // get related product
 app.get("/relatedProduct", (req, res) => {
+  console.log(req.query);
   async function run() {
     try {
-      const products = productList.find(req.query);
+      const products = productList.filter(req.query);
       const result = await products.toArray();
       res.json(result);
     } catch (err) {
@@ -171,7 +201,7 @@ app.get("/getProducts", (req, res) => {
           .find({})
           .limit(currentPage * limit)
         const result = await products.toArray();
-        console.log(result.length);
+        // console.log(result.length); 
         res.json(result);
       } catch (err) {
         console.log("failed to find");
@@ -195,17 +225,77 @@ app.delete("/getProducts/:id", (req, res) => {
   run();
 });
 
+
+// edit product start
 app.put("/editProduct/:id", (req, res) => {
   async function run() {
     try {
       const id = new ObjectId(req.params.id);
       const filter = { _id: id };
       const result = await productList.replaceOne(filter, req.body);
-      res.json(result);
-    } catch (err) {}
+     
+      res.status(200).json({ status: "ok" });
+    } catch (err) {
+      res.status(400).send({
+        message: "This is an error Edit Product!",
+      });
+    }
   }
   run();
 });
+
+// edit product end
+
+
+
+
+// garbage start 
+app.put('/garbageTrash', async(req, res)=>{
+  console.log("hit put");
+  const {id, images}= req.body || {}
+  console.log(req.body.id);
+  try{
+    const ans =await  garbageList.insertMany(images)
+    res.json("good from edit")
+    }catch(err){
+    console.log("Failed to add in garbage.");
+  }
+})
+
+app.delete('/garbage/:garbageId', async(req, res)=>{
+  console.log("hit delete ");
+  const _id = new ObjectId(req.params.garbageId);
+  try{
+    const ans = await productList.deleteOne({ _id: _id });
+    res.json("good from delete")
+    }catch(err){
+    console.log("Failed to Delete garbage.");
+  }
+})
+
+app.get("/getGarbage", async (req, res) => {
+  try {
+    const garbage = await garbageList.find({});
+    const result = await garbage.toArray();
+    res.send(result);
+  } catch (err) {
+    console.log("failed to find garbage collection");
+  }
+});
+
+app.delete("/deleteGarbage/:id", async (req, res) => {
+  console.log(req.params.id);
+  try {
+    const id = new ObjectId(req.params.id);
+    let result = await garbageList.deleteOne({ _id: id });
+    console.log(result);
+    res.end()
+  } catch (err) {
+    console.log("failed to Delete from garbage collection.");
+  }
+});
+
+// garbage end 
 
 app.post("/getSelectedProduct", async (req, res) => {
   try {
@@ -333,7 +423,8 @@ app.get("/myOrders", verifyIdToken, async (req, res) => {
 app.put("/singleOrder", async (req, res) => {
   try {
     const { status, id } = req.body;
-    console.log(status, id);
+    // console.log(status, id);
+
     const _id = new ObjectId(id);
     const filter = { _id };
     const updateDoc = {
@@ -348,6 +439,6 @@ app.put("/singleOrder", async (req, res) => {
   }
 });
 
-app.listen(port, () => {
+app.listen(process.env.PORT || port, () => {
   console.log(`Example app listening on port ${port}`);
 });
