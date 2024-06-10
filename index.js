@@ -12,7 +12,7 @@ admin.initializeApp({
 });
 
 const cors = require("cors");
-const port = 25000;
+const port = 5000;
 app.use(cors());
 app.use(express.json());
 app.use(express.static('public'))
