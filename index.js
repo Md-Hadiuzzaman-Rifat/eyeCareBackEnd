@@ -40,7 +40,7 @@ app.get("/", (req, res) => {
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    return cb(null, "./public/Images");
+    return cb(null, "./public/images");
   },
   filename: function (req, file, cb) {
     return cb(null, `${Date.now()}_${file.originalname}`);
@@ -200,7 +200,8 @@ app.get("/getProducts", (req, res) => {
         const products = productList
           .find({})
           .limit(currentPage * limit)
-        const result = await products.toArray();
+        // const result = await products.toArray();
+        const result = (await products.toArray()).sort().reverse();
         // console.log(result.length); 
         res.json(result);
       } catch (err) {
